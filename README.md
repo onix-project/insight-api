@@ -1,36 +1,35 @@
 
 # *insight API*
 
-*insight API* is an open-source bitcoin blockchain REST
+*insight API* is an open-source onixcoin blockchain REST
 and websocket API. Insight API runs in NodeJS and uses LevelDB for storage.
 
 This is a backend-only service. If you're looking for the web frontend application,
-take a look at https://github.com/bitpay/insight.
+take a look at https://github.com/onix-project/insight-onix-ui.
 
-*Insight API* allows to develop bitcoin-related applications (such as wallets) that
-require certain information from the blockchain that bitcoind does not provide.
+*Insight API* allows to develop onixcoin-related applications (such as wallets) that
+require certain information from the blockchain that ONIXd does not provide.
 
 A blockchain explorer front-end has been developed on top of *Insight API*. It can
-be downloaded at [Github Insight Repository](https://github.com/bitpay/insight).
+be downloaded at [Github Insight Repository](https://github.com/onix-project/insight-onix-ui).
 
 ## Warning
-  Insight file sync does not work with **bitcoind**  v0.10 
+  Insight file sync does not work with onixcoin
   In order to use Insigtht you must set the environment variable INSIGHT_FORCE_RPC_SYNC = 1  
-  We are working on `bitcore-node` to replace Insight-api. Check `bitcore-node` on  [github](https://github.com/bitpay/bitcore-node).
-
+  
 ## Prerequisites
 
-* **bitcoind** - Download and Install [Bitcoin](http://bitcoin.org/en/download)
+* **ONIXd** - Download and Install [Onixcoin](https://github.com/onix-project/onixcoin)
 
-*insight API* needs a *trusted* bitcoind node to run. *insight API* will connect to the node
-through the RPC API, bitcoin peer-to-peer protocol, and will even read its raw block .dat files for syncing.
+*insight API* needs a *trusted* ONIXd node to run. *insight API* will connect to the node
+through the RPC API, onixcoin peer-to-peer protocol, and will even read its raw block .dat files for syncing.
 
-Configure bitcoind to listen to RPC calls and set `txindex` to true.
-The easiest way to do this is by copying `./etc/bitcoind/bitcoin.conf` to your
-bitcoin data directory (usually `~/.bitcoin` on Linux, `%appdata%\Bitcoin\` on Windows,
-or `~/Library/Application Support/Bitcoin` on Mac OS X).
+Configure ONIXd to listen to RPC calls and set `txindex` to true.
+The easiest way to do this is by copying `./etc/onixd/onixcoin.conf` to your
+onixcoin data directory (usually `~/.onixcoin` on Linux, `%appdata%\Onixcoin\` on Windows,
+or `~/Library/Application Support/Onixcoin` on Mac OS X).
 
-bitcoind must be running and must have finished downloading the blockchain **before** running *insight API*.
+ONIXd must be running and must have finished downloading the blockchain **before** running *insight API*.
 
 
 * **Node.js v0.10.x** - Download and Install [Node.js](http://www.nodejs.org/download/).
@@ -43,7 +42,7 @@ bitcoind must be running and must have finished downloading the blockchain **bef
 
   To install Insight API, clone the main repository:
 
-    $ git clone https://github.com/bitpay/insight-api && cd insight-api
+    $ git clone https://github.com/onix-project/insight-onix-api && cd insight-onix-api
 
   Install dependencies:
 
@@ -67,13 +66,13 @@ bitcoind must be running and must have finished downloading the blockchain **bef
 All configuration is specified in the [config](config/) folder, particularly the [config.js](config/config.js) file. There you can specify your application name and database name. Certain configuration values are pulled from environment variables if they are defined:
 
 ```
-BITCOIND_HOST         # RPC bitcoind host
-BITCOIND_PORT         # RPC bitcoind Port
-BITCOIND_P2P_HOST     # P2P bitcoind Host (will default to BITCOIND_HOST, if specified)
-BITCOIND_P2P_PORT     # P2P bitcoind Port
+BITCOIND_HOST         # RPC ONIXd host
+BITCOIND_PORT         # RPC ONIXd Port
+BITCOIND_P2P_HOST     # P2P ONIXd Host (will default to BITCOIND_HOST, if specified)
+BITCOIND_P2P_PORT     # P2P ONIXd Port
 BITCOIND_USER         # RPC username
 BITCOIND_PASS         # RPC password
-BITCOIND_DATADIR      # bitcoind datadir. 'testnet3' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
+BITCOIND_DATADIR      # Onixd datadir. 'testnet' will be appended automatically if testnet is used. NEED to finish with '/'. e.g: `/vol/data/`
 INSIGHT_NETWORK [= 'livenet' | 'testnet']
 INSIGHT_PORT          # insight api port
 INSIGHT_DB            # Path where to store insight's internal DB. (defaults to $HOME/.insight)
@@ -84,37 +83,34 @@ ENABLE_RATELIMITER # if "true" will enable the ratelimiter plugin
 LOGGER_LEVEL # defaults to 'info', can be 'debug','verbose','error', etc.
 ENABLE_HTTPS # if "true" it will server using SSL/HTTPS
 ENABLE_EMAILSTORE # if "true" will enable a plugin to store data with a validated email address
-INSIGHT_EMAIL_CONFIRM_HOST # Only meanfull if ENABLE_EMAILSTORE is enable. Hostname for the confirm URLs. E.g: 'https://insight.bitpay.com'
+INSIGHT_EMAIL_CONFIRM_HOST # Only meanfull if ENABLE_EMAILSTORE is enable. Hostname for the confirm URLs. E.g: 'https://www.onixcoin.info/'
 
 ```
 
-Make sure that bitcoind is configured to [accept incoming connections using 'rpcallowip'](https://en.bitcoin.it/wiki/Running_Bitcoin).
+Make sure that ONIXd is configured to [accept incoming connections using 'rpcallowip'](https://en.bitcoin.it/wiki/Running_Bitcoin).
 
 In case the network is changed (testnet to livenet or vice versa) levelDB database needs to be deleted. This can be performed running:
 ```util/sync.js -D``` and waiting for *insight* to synchronize again.  Once the database is deleted, the sync.js process can be safely interrupted (CTRL+C) and continued from the synchronization process embedded in main app.
 
 ## Synchronization
 
-The initial synchronization process scans the blockchain from the paired bitcoind server to update addresses and balances. *insight-api* needs exactly one trusted bitcoind node to run. This node must have finished downloading the blockchain before running *insight-api*.
+The initial synchronization process scans the blockchain from the paired ONIXd server to update addresses and balances. *insight-onix-api* needs exactly one trusted ONIXd node to run. This node must have finished downloading the blockchain before running *insight-onix-api*.
 
 While *insight* is synchronizing the website can be accessed (the sync process is embedded in the webserver), but there may be missing data or incorrect balances for addresses. The 'sync' status is shown at the `/api/sync` endpoint.
 
-The blockchain can be read from bitcoind's raw `.dat` files or RPC interface.
+The blockchain can be read from ONIXd's raw `.dat` files or RPC interface.
 Reading the information from the `.dat` files is much faster so it's the
 recommended (and default) alternative. `.dat` files are scanned in the default
-location for each platform (for example, `~/.bitcoin` on Linux). In case a
-non-standard location is used, it needs to be defined (see the Configuration section).
-As of June 2014, using `.dat` files the sync process takes 9 hrs.
-for livenet and 30 mins. for testnet.
+location for each platform (for example, `~/.onixcoin` on Linux). 
 
-While synchronizing the blockchain, *insight-api* listens for new blocks and
-transactions relayed by the bitcoind node. Those are also stored on *insight-api*'s database.
-In case *insight-api* is shutdown for a period of time, restarting it will trigger
+While synchronizing the blockchain, *insight-onix-api* listens for new blocks and
+transactions relayed by the ONIXd node. Those are also stored on *insight-onix-api*'s database.
+In case *insight-onix-api* is shutdown for a period of time, restarting it will trigger
 a partial (historic) synchronization of the blockchain. Depending on the size of
 that synchronization task, a reverse RPC or forward `.dat` syncing strategy will be used.
 
-If bitcoind is shutdown, *insight-api* needs to be stopped and restarted
-once bitcoind is restarted.
+If ONIXd is shutdown, *insight-onix-api* needs to be stopped and restarted
+once ONIXd is restarted.
 
 ### Syncing old blockchain data manually
 
@@ -125,13 +121,13 @@ once bitcoind is restarted.
   Check util/sync.js --help for options, particulary -D to erase the current DB.
 
   *NOTE*: there is no need to run this manually since the historic synchronization
-  is built in into the web application. Running *insight-api* normally will trigger
+  is built in into the web application. Running *insight-onix-api* normally will trigger
   the historic sync automatically.
 
 
 ### DB storage requirement
 
-To store the blockchain and address related information, *insight-api* uses LevelDB.
+To store the blockchain and address related information, *insight-onix-api* uses LevelDB.
 Two DBs are created: txs and blocks. By default these are stored on
 
   ``~/.insight/``
@@ -151,7 +147,7 @@ To run the tests
 ```$ grunt test```
 
 
-Contributions and suggestions are welcome at [insight-api github repository](https://github.com/bitpay/insight-api).
+Contributions and suggestions are welcome at [insight-onix-api github repository](https://github.com/onix-project/insight-onix-api).
 
 ## Caching schema
 
@@ -177,7 +173,7 @@ The end-points are:
 ### Block
 ```
   /api/block/[:hash]
-  /api/block/00000000a967199a2fad0877433c93df785a8d8ce062e5f9b451cd1397bdbf62
+  /api/block/000007140b7a6ca0b64965824f5731f6e86daadf19eb299033530b1e61236e43
 ```
 ### Block index
 Get block hash by height
@@ -187,21 +183,21 @@ Get block hash by height
 ```
 This would return:
 ```
-{"blockHash":"000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"}
+{"blockHash":"000007140b7a6ca0b64965824f5731f6e86daadf19eb299033530b1e61236e43"}
 ```
 which is the hash of the Genesis block (0 height)
 
 ### Transaction
 ```
   /api/tx/[:txid]
-  /api/tx/525de308971eabd941b139f46c7198b5af9479325c2395db7f2fb5ae8562556c
+  /api/tx/eb621d683432b1d091ead286754bcc197405b1003dc25153f0a6b27c191807d5
   /api/raw/[:rawid]
-  /api/raw/525de308971eabd941b139f46c7198b5af9479325c2395db7f2fb5ae8562556c
+  /api/raw/eb621d683432b1d091ead286754bcc197405b1003dc25153f0a6b27c191807d5
 ```
 ### Address
 ```
   /api/addr/[:addr][?noTxList=1&noCache=1]
-  /api/addr/mmvP3mTe53qxHdPqXEvdu8WdC7GfQ2vmx5?noTxList=1
+  /api/addr/XTo7XEAgPapkgJkgH6iR31J4cHBxwTgREe?noTxList=1
 ```
 ### Address Properties
 ```
@@ -219,23 +215,14 @@ Sample return:
 ``` json
 [
     {
-      "address": "n2PuaAguxZqLddRbTnAoAuwKYgN2w2hZk7",
-      "txid": "dbfdc2a0d22a8282c4e7be0452d595695f3a39173bed4f48e590877382b112fc",
+      "address": "XTo7XEAgPapkgJkgH6iR31J4cHBxwTgREe",
+      "txid": "26d525467229c9202e5c4c9fd95900ae9b21aa07a4180573e2572a76fe1dbfbb",
       "vout": 0,
-      "ts": 1401276201,
-      "scriptPubKey": "76a914e50575162795cd77366fb80d728e3216bd52deac88ac",
-      "amount": 0.001,
-      "confirmations": 3
-    },
-    {
-      "address": "n2PuaAguxZqLddRbTnAoAuwKYgN2w2hZk7",
-      "txid": "e2b82af55d64f12fd0dd075d0922ee7d6a300f58fe60a23cbb5831b31d1d58b4",
-      "vout": 0,
-      "ts": 1401226410,
-      "scriptPubKey": "76a914e50575162795cd77366fb80d728e3216bd52deac88ac",
-      "amount": 0.001,
-      "confirmation": 6,
-      "confirmationsFromCache": true
+      "ts": 1513440846,
+      "scriptPubKey": "76a914b466b6445243ce95d8e41878f4fc8e6bda5cddb488ac",
+      "amount": 999.99,
+      "confirmations": 1983,
+      "confirmationsFromCache": false
     }
 ]
 ```
@@ -247,7 +234,7 @@ Please note that in case confirmations are cached (which happens by default when
 GET method:
 ```
   /api/addrs/[:addrs]/utxo
-  /api/addrs/2NF2baYuJAkCKo5onjUKEPdARQkZ6SYyKd5,2NAre8sX2povnjy4aeiHKeEh97Qhn97tB1f/utxo
+  /api/addrs/XE24Mn4ekpGMyUZK7ubABmUf7ZASDtEwP6,XTo7XEAgPapkgJkgH6iR31J4cHBxwTgREe/utxo
 ```
 
 POST method:
@@ -257,25 +244,25 @@ POST method:
 
 POST params:
 ```
-addrs: 2NF2baYuJAkCKo5onjUKEPdARQkZ6SYyKd5,2NAre8sX2povnjy4aeiHKeEh97Qhn97tB1f
+addrs: XE24Mn4ekpGMyUZK7ubABmUf7ZASDtEwP6,XTo7XEAgPapkgJkgH6iR31J4cHBxwTgREe
 ```
 
 ### Transactions by Block
 ```
   /api/txs/?block=HASH
-  /api/txs/?block=00000000fa6cf7367e50ad14eb0ca4737131f256fc4c5841fd3c3f140140e6b6
+  /api/txs/?block=0000000000000f24465c1c4153f74bd1eb66ffd92bdaa43eb29745637dc8abc4
 ```
 ### Transactions by Address
 ```
   /api/txs/?address=ADDR
-  /api/txs/?address=mmhmMNfBiZZ37g1tgg2t8DDbNoEdqKVxAL
+  /api/txs/?address=XTo7XEAgPapkgJkgH6iR31J4cHBxwTgREe
 ```
 
 ### Transactions for multiple addresses
 GET method:
 ```
   /api/addrs/[:addrs]/txs[?from=&to=]
-  /api/addrs/2NF2baYuJAkCKo5onjUKEPdARQkZ6SYyKd5,2NAre8sX2povnjy4aeiHKeEh97Qhn97tB1f/txs?from=0&to=20
+  /api/addrs/XTo7XEAgPapkgJkgH6iR31J4cHBxwTgREe,XE24Mn4ekpGMyUZK7ubABmUf7ZASDtEwP6/txs?from=0&to=20
 ```
 
 POST method:
@@ -285,7 +272,7 @@ POST method:
 
 POST params:
 ```
-addrs: 2NF2baYuJAkCKo5onjUKEPdARQkZ6SYyKd5,2NAre8sX2povnjy4aeiHKeEh97Qhn97tB1f
+addrs: XTo7XEAgPapkgJkgH6iR31J4cHBxwTgREe,XE24Mn4ekpGMyUZK7ubABmUf7ZASDtEwP6
 from (optional): 0
 to (optional): 20
 ```
@@ -296,20 +283,19 @@ Sample output:
   from: 0,
   to: 20,
   items:
-    [ { txid: '3e81723d069b12983b2ef694c9782d32fca26cc978de744acbc32c3d3496e915',
+    [ { txid: '26d525467229c9202e5c4c9fd95900ae9b21aa07a4180573e2572a76fe1dbfbb',
        version: 1,
        locktime: 0,
        vin: [Object],
        vout: [Object],
-       blockhash: '00000000011a135e5277f5493c52c66829792392632b8b65429cf07ad3c47a6c',
-       confirmations: 109367,
-       time: 1393659685,
-       blocktime: 1393659685,
-       valueOut: 0.3453,
-       size: 225,
-       firstSeenTs: undefined,
-       valueIn: 0.3454,
-       fees: 0.0001 },
+       blockhash: '00000000000007240dc03ec6c99b1cd8ef23ebd86dfbf68585f9414635c64cfa',
+       confirmations: 1983,
+       time: 1513440846,
+       blocktime: 1513440846,
+       valueOut: 999.99,
+       size: 340,
+       valueIn: 0.02,
+       fees: 0.001},
       { ... },
       { ... },
       ...
@@ -358,7 +344,7 @@ POST response:
   /api/peer
 ```
 
-### Status of the bitcoin network
+### Status of the onixcoin network
 ```
   /api/status?q=xxx
 ```
@@ -397,7 +383,7 @@ Sample output:
 }
 ```
 
-'<bitcoinAddress>': new transaction concerning <bitcoinAddress> received from network. This event is published in the '<bitcoinAddress>' room.
+'<onixcoinAddress>': new transaction concerning <onixcoinAddress> received from network. This event is published in the '<onixcoinAddress>' room.
 
 'status': every 1% increment on the sync task, this event will be triggered. This event is published in the 'sync' room.
 

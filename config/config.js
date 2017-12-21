@@ -24,15 +24,15 @@ var home = process.env.INSIGHT_DB || (getUserHome() + '/.insight');
 if (process.env.INSIGHT_NETWORK === 'livenet') {
   env = 'livenet';
   db = home;
-  port = '3000';
-  b_port = '8332';
-  p2p_port = '8333';
+  port = '3001';
+  b_port = '41019';
+  p2p_port = '41016';
 } else {
   env = 'testnet';
   db = home + '/testnet';
-  port = '3001';
-  b_port = '18332';
-  p2p_port = '18333';
+  port = '3002';
+  b_port = '141019';
+  p2p_port = '141016';
 }
 port = parseInt(process.env.INSIGHT_PORT) || port;
 
@@ -57,9 +57,9 @@ var isWin = /^win/.test(process.platform);
 var isMac = /^darwin/.test(process.platform);
 var isLinux = /^linux/.test(process.platform);
 if (!dataDir) {
-  if (isWin) dataDir = '%APPDATA%\\Bitcoin\\';
-  if (isMac) dataDir = process.env.HOME + '/Library/Application Support/Bitcoin/';
-  if (isLinux) dataDir = process.env.HOME + '/.bitcoin/';
+  if (isWin) dataDir = '%APPDATA%\\Onixcoin\\';
+  if (isMac) dataDir = process.env.HOME + '/Library/Application Support/Onixcoin/';
+  if (isLinux) dataDir = process.env.HOME + '/.onixcoin/';
 }
 dataDir += network === 'testnet' ? 'testnet3' : '';
 

@@ -2,7 +2,7 @@
 
 var imports = require('soop').imports();
 var async = require('async');
-var bitcore = require('bitcore');
+var bitcore = require('onixcore');
 var BitcoreAddress = bitcore.Address;
 var BitcoreTransaction = bitcore.Transaction;
 var BitcoreUtil = bitcore.util;
