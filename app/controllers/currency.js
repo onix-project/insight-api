@@ -43,8 +43,8 @@ exports.index = function(req, res) {
   if (bitstampRate === 0 || currentTime >= (timestamp + delay)) {
     timestamp = currentTime;
 
-    _request('https://www.bitstamp.net/api/ticker/', function(err, data) {
-      if (!err) bitstampRate = parseFloat(JSON.parse(data).last);
+    _request('https://api.coinmarketcap.com/v1/ticker/onix/', function(err, data) {
+      if (!err) bitstampRate = parseFloat(JSON.parse(data)[0].price_usd);
 
       res.jsonp({
         status: 200,

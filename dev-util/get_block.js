@@ -5,7 +5,7 @@ var util = require('util');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var RpcClient = require('../node_modules/bitcore/RpcClient');
+var RpcClient = require('../node_modules/onixcore/RpcClient');
 
 var config = require('../config/config');
 

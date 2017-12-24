@@ -1,8 +1,8 @@
 {
-  "name": "insight-bitcore-api",
-  "description": "An open-source bitcoin blockchain API. The Insight API provides you with a convenient, powerful and simple way to query and broadcast data on the bitcoin network and build your own services with it.",
-  "version": "0.2.16",
-  "repository": "git://github.com/bitpay/insight-api.git",
+  "name": "insight-onix-api",
+  "description": "An open-source onixcoin blockchain API. The Insight API provides you with a convenient, powerful and simple way to query and broadcast data on the bitcoin network and build your own services with it.",
+  "version": "0.2.0",
+  "repository": "git://github.com/onix-project/insight-onix-api.git",
   "contributors": [{
     "name": "Matias Alejo Garcia",
     "email": "ematiu@gmail.com"
@@ -21,11 +21,14 @@
   }, {
     "name": "Ivan Socolsky",
     "email": "jungans@gmail.com"
+  }, {
+    "name": "Jose Luis Estevez",
+    "email": "jose.estevez.prieto@gmail.com"
   }],
   "bugs": {
-    "url": "https://github.com/bitpay/insight-api/issues"
+    "url": "https://github.com/onix-project/insight-onix-api/issues"
   },
-  "homepage": "https://github.com/bitpay/insight-api",
+  "homepage": "https://github.com/onix-project/insight-onix-api",
   "license": "MIT",
   "keywords": [
     "insight",
@@ -34,7 +37,7 @@
     "bitcoin api",
     "blockchain api",
     "json",
-    "bitcore"
+    "onixcore"
   ],
   "engines": {
     "node": "*"
@@ -48,7 +51,7 @@
     "base58-native": "0.1.2",
     "bignum": "*",
     "morgan": "*",
-    "bitcore": "git://github.com/bitpay/bitcore.git#aa41c70cff2583d810664c073a324376c39c8b36",
+    "onixcore": "0.1.0",
     "bufferput": "git://github.com/bitpay/node-bufferput.git",
     "buffertools": "*",
     "commander": "^2.3.0",

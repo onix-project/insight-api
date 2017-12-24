@@ -1,5 +1,5 @@
 var levelup = require('levelup');
-var bitcore = require('bitcore');
+var bitcore = require('onixcore');
 var _ = require('lodash');
 
 var home = process.env['HOME'];
